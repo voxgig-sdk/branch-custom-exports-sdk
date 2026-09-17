@@ -1,0 +1,1626 @@
+{
+ "openapi": "3.0.0",
+ "info": {
+  "title": "Custom Exports API",
+  "description": "Export log-level and aggregate-level data for measuring campaign performance.",
+  "termsOfService": "https://branch.io/policies/",
+  "contact": {
+   "name": "Branch Support",
+   "url": "https://help.branch.io/using-branch/page/submit-a-ticket",
+   "email": "support@branch.io"
+  },
+  "version": "1.0.1"
+ },
+ "servers": [
+  {
+   "url": "https://api2.branch.io/v2"
+  }
+ ],
+ "security": [
+  {
+   "appId": [],
+   "accessToken": []
+  }
+ ],
+ "paths": {
+  "/logs": {
+   "post": {
+    "tags": [
+     "Custom Exports API"
+    ],
+    "summary": "Create Export Request",
+    "description": "By passing in the appropriate options, you can find and queue all records that match search criteria for export and build the relevant export request accordingly.\n",
+    "operationId": "buildExportRequest",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/custom_exports_body"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Status of aggregate export",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_200_post_export"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n  \"handle\": \"xxxx-0000\",\n  \"export_job_status_url\": \"https://api2.branch.io/v2/logs/{UNIQUE_ALPHANUMERICAL_JOB_HANDLE_ID_HERE}?app_id={APP_ID_HERE}\"\n}\n"
+         }
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Auth Client failed response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_401"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"message\": \"Auth Client didn't return anything for the user id: $userid.\",\n        \"code\": 401\n    }\n}"
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "User Not Found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_404"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"message\": \"Not authorized for the user id: $userid.\",\n        \"code\": 404\n    }\n}"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate Limit Reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "object",
+           "properties": {
+            "code": {
+             "type": "integer",
+             "example": "429"
+            },
+            "message": {
+             "type": "string",
+             "example": "Rate limit reached."
+            }
+           }
+          }
+         }
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"code\": 429,\n        \"message\": \"Rate limit reached.\"\n    }\n}"
+         }
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_500"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"message\": \"Our product is failing to serve your request at this moment. Please try again later.\",\n        \"code\": 500\n    }\n}"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/data/ready": {
+   "post": {
+    "tags": [
+     "Custom Exports API"
+    ],
+    "summary": "Check Data Readiness",
+    "description": "Check if event or aggregate data is ready and available for a topic, for a particular hour of the day.\n",
+    "operationId": "checkDataReadiness",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/data_readiness_body"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Data Readiness Status Successfully Retrieved",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_200_post_data_readiness"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n  \"data_ready\": true,\n  \"date\": \"2024-01-05 01:00:00\"\n}\n"
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Invalid Request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_400_data_readiness"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"message\": \"Topic is invalid or data retention for requested data has expired.\",\n        \"code\": 400\n    }\n}"
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate Limit Reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "object",
+           "properties": {
+            "code": {
+             "type": "integer",
+             "example": "429"
+            },
+            "message": {
+             "type": "string",
+             "example": "Rate limit reached."
+            }
+           }
+          }
+         }
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"code\": 429,\n        \"message\": \"Rate limit reached.\"\n    }\n}"
+         }
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal Server Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_500"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"message\": \"Our product is failing to serve your request at this moment. Please try again later.\",\n        \"code\": 500\n    }\n}"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/logs/{request_handle}": {
+   "get": {
+    "tags": [
+     "Custom Exports API"
+    ],
+    "summary": "Get Export Request",
+    "description": "Retrieves custom export request logs based on the provided request handle id\n",
+    "operationId": "getDownloadExportRequest",
+    "parameters": [
+     {
+      "name": "request_handle",
+      "in": "path",
+      "description": "The ID returned by the log export queue.\n",
+      "required": "true",
+      "style": "simple",
+      "explode": "false",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "description": "The maximum number of results to return.",
+      "required": "false",
+      "style": "form",
+      "explode": "true",
+      "schema": {
+       "minimum": "1",
+       "type": "integer",
+       "format": "int32"
+      }
+     },
+     {
+      "name": "format",
+      "in": "query",
+      "description": "Format of returned data. json or csv",
+      "required": "false",
+      "style": "form",
+      "explode": "true",
+      "schema": {
+       "type": "string",
+       "default": "csv",
+       "enum": [
+        "csv",
+        "json"
+       ]
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Status of aggregate export",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_200_get_export"
+        },
+        "examples": {
+         "Result": {
+          "value": {
+           "status": "complete",
+           "response_url": "https://branch-exports-web-usw2.s3.us-west-1.amazonaws.com/v2/y%3D2023/m%3D05/d%3D17/app_id%3D{APP_ID_HERE}/job_id%3D{JOB_ID_HERE}/task_id%3D{TASK_ID_HERE}/unique-csv-file-name-here.csv?X-Amz-Algorithm={AMZ_ALGORITHM_HERE}&X-Amz-Date={AMZ_DATE_HERE}&X-Amz-SignedHeaders={AMZ_SIGNED_HEADERS_HERE}&X-Amz-Expires={AMZ_EXPIRATION_HERE}&X-Amz-Credential={AMZ_CREDENTIAL_HERE}&X-Amz-Signature={AMZ_SIGNATURE_HERE}",
+           "lines_exported": "0",
+           "code": "200"
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Authentication Failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/inline_response_400"
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"message\": \"Authentication failed !\",\n        \"code\": 400\n    }\n}"
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Job ID Not Found"
+     },
+     "429": {
+      "description": "Rate Limit Reached",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "object",
+           "properties": {
+            "code": {
+             "type": "integer",
+             "example": "429"
+            },
+            "message": {
+             "type": "string",
+             "example": "Rate limit reached."
+            }
+           }
+          }
+         }
+        },
+        "examples": {
+         "Result": {
+          "value": "{\n    \"error\": {\n        \"code\": 429,\n        \"message\": \"Rate limit reached.\"\n    }\n}"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "custom_exports_body": {
+    "type": "object",
+    "description": "Custom Exports Request Body",
+    "required": [
+     "start_date",
+     "end_date",
+     "report_type",
+     "fields",
+     "limit"
+    ],
+    "properties": {
+     "start_date": {
+      "type": "string",
+      "description": "The start of the interval time range represented as an ISO-8601 complete datetime including Hours, Minutes, Seconds, and Milliseconds. Datetime must be within the last 120 days.",
+      "format": "date-time",
+      "example": "2023-05-15T00:00:00Z"
+     },
+     "end_date": {
+      "type": "string",
+      "description": "The end of the interval time range represented as an ISO-8601 complete datetime including Hours, Minutes, Seconds, and Milliseconds.",
+      "format": "date-time",
+      "example": "2023-05-15T01:59:59Z"
+     },
+     "report_type": {
+      "type": "string",
+      "example": "eo_open",
+      "default": "eo_open",
+      "enum": [
+       "eo_impression",
+       "eo_click",
+       "eo_branch_cta_view",
+       "eo_open",
+       "eo_install",
+       "eo_reinstall",
+       "eo_web_session_start",
+       "eo_pageview",
+       "eo_commerce_event",
+       "eo_custom_event",
+       "eo_content_event",
+       "eo_dismissal",
+       "eo_user_lifecycle_event",
+       "skadnetwork_valid_messages",
+       "skadnetwork_invalid_messages",
+       "webhook2",
+       "eo_click_blocked",
+       "eo_impression_blocked",
+       "eo_install_blocked",
+       "eo_reinstall_blocked",
+       "eo_open_blocked",
+       "eo_web_session_start_blocked",
+       "eo_pageview_blocked",
+       "eo_custom_event_blocked",
+       "eo_content_event_blocked",
+       "eo_commerce_event_blocked",
+       "eo_user_lifecycle_event_blocked",
+       "eo_branch_cta_view_blocked",
+       "eo_san_touch"
+      ],
+      "description": "An array representing event type of your report. See [Available Topics](https://help.branch.io/developers-hub/docs/custom-exports#branch-available-topics) for the complete list."
+     },
+     "fields": {
+      "description": "An array representing fields/columns available in your report. See [Available EO Fields](https://help.branch.io/developers-hub/docs/custom-exports#branch-available-eo-fields) for the complete list.",
+      "type": "array",
+      "default": [
+       "name"
+      ],
+      "example": [
+       "name"
+      ],
+      "items": {
+       "type": "string",
+       "example": "timestamp",
+       "enum": [
+        "advertiser_copy",
+        "android_app_link_url",
+        "annotation_conversion_value_mapped_value",
+        "annotation_customer_event_alias",
+        "annotation_dollar_3p",
+        "annotation_revenue_lower",
+        "annotation_revenue_upper",
+        "app_id",
+        "app_name",
+        "attributed",
+        "body_ad_network_id",
+        "body_app_id",
+        "body_attribution_signature",
+        "body_campaign_id",
+        "body_conversion_value",
+        "body_did_win",
+        "body_fidelity_type",
+        "body_redownload",
+        "body_source_app_id",
+        "body_transaction_id",
+        "body_version",
+        "content_items",
+        "custom_data",
+        "customer_event_alias",
+        "days_from_last_attributed_touch_to_event",
+        "deep_linked",
+        "di_match_click_token",
+        "event_data_ad_type",
+        "event_data_affiliation",
+        "event_data_coupon",
+        "event_data_currency",
+        "event_data_description",
+        "event_data_exchange_rate",
+        "event_data_local_currency",
+        "event_data_local_currency_exchange_rate",
+        "event_data_revenue",
+        "event_data_revenue_in_local_currency",
+        "event_data_revenue_in_usd",
+        "event_data_search_query",
+        "event_data_shipping",
+        "event_data_tax",
+        "event_data_transaction_id",
+        "event_timestamp",
+        "event_timezone_adjusted_day",
+        "existing_user",
+        "external_intent_uri",
+        "first_event_for_user",
+        "fraud_bool_suspicious",
+        "fraud_bool_suspicious_attribution",
+        "fraud_descriptions",
+        "hours_from_last_attributed_touch_to_event",
+        "id",
+        "install_activity_attributed",
+        "install_activity_data_has_clicked_ad",
+        "install_activity_data_has_clicked_email",
+        "install_activity_timestamp",
+        "install_activity_touch_data_additional_data_tilde_ad_id",
+        "install_activity_touch_data_additional_data_tilde_ad_set_id",
+        "install_activity_touch_data_additional_data_tilde_campaign_id",
+        "install_activity_touch_data_additional_data_tilde_creative_id",
+        "install_activity_touch_data_dollar_3p",
+        "install_activity_touch_data_dollar_meta_is_mobile_data_terms_signed",
+        "install_activity_touch_data_plus_via_features",
+        "install_activity_touch_data_plus_web_format",
+        "install_activity_touch_data_tilde_ad_name",
+        "install_activity_touch_data_tilde_ad_set_name",
+        "install_activity_touch_data_tilde_advertising_partner_id",
+        "install_activity_touch_data_tilde_agency",
+        "install_activity_touch_data_tilde_agency_id",
+        "install_activity_touch_data_tilde_campaign",
+        "install_activity_touch_data_tilde_channel",
+        "install_activity_touch_data_tilde_creative_name",
+        "install_activity_touch_data_tilde_customer_ad_name",
+        "install_activity_touch_data_tilde_customer_ad_set_name",
+        "install_activity_touch_data_tilde_customer_campaign",
+        "install_activity_touch_data_tilde_customer_keyword",
+        "install_activity_touch_data_tilde_customer_placement",
+        "install_activity_touch_data_tilde_customer_secondary_publisher",
+        "install_activity_touch_data_tilde_customer_sub_site_name",
+        "install_activity_touch_data_tilde_feature",
+        "install_activity_touch_data_tilde_journey_name",
+        "install_activity_touch_data_tilde_keyword",
+        "install_activity_touch_data_tilde_placement",
+        "install_activity_touch_data_tilde_secondary_publisher",
+        "install_activity_touch_data_tilde_stage",
+        "install_activity_touch_data_tilde_tags",
+        "install_activity_touch_data_tilde_view_name",
+        "install_activity_touch_type",
+        "invalid_reason",
+        "last_attributed_touch_data_custom_fields",
+        "last_attributed_touch_data_dollar_3p",
+        "last_attributed_touch_data_dollar_marketing_title",
+        "last_attributed_touch_data_dollar_meta_is_mobile_data_terms_signed",
+        "last_attributed_touch_data_plus_aggregate_measurement",
+        "last_attributed_touch_data_plus_attribution_method",
+        "last_attributed_touch_data_plus_attribution_method_type",
+        "last_attributed_touch_data_plus_current_feature",
+        "last_attributed_touch_data_plus_pam_enabled",
+        "last_attributed_touch_data_plus_referring_domain",
+        "last_attributed_touch_data_plus_touch_id",
+        "last_attributed_touch_data_plus_url",
+        "last_attributed_touch_data_plus_via_features",
+        "last_attributed_touch_data_plus_web_format",
+        "last_attributed_touch_data_tilde_ad_id",
+        "last_attributed_touch_data_tilde_ad_name",
+        "last_attributed_touch_data_tilde_ad_set_id",
+        "last_attributed_touch_data_tilde_ad_set_name",
+        "last_attributed_touch_data_tilde_advertising_account_id",
+        "last_attributed_touch_data_tilde_advertising_account_name",
+        "last_attributed_touch_data_tilde_advertising_partner_id",
+        "last_attributed_touch_data_tilde_advertising_partner_name",
+        "last_attributed_touch_data_tilde_agency",
+        "last_attributed_touch_data_tilde_agency_id",
+        "last_attributed_touch_data_tilde_banner_dimensions",
+        "last_attributed_touch_data_tilde_branch_ad_format",
+        "last_attributed_touch_data_tilde_campaign",
+        "last_attributed_touch_data_tilde_campaign_id",
+        "last_attributed_touch_data_tilde_campaign_type",
+        "last_attributed_touch_data_tilde_channel",
+        "last_attributed_touch_data_tilde_creative_id",
+        "last_attributed_touch_data_tilde_creative_name",
+        "last_attributed_touch_data_tilde_customer_ad_name",
+        "last_attributed_touch_data_tilde_customer_ad_set_name",
+        "last_attributed_touch_data_tilde_customer_campaign",
+        "last_attributed_touch_data_tilde_customer_keyword",
+        "last_attributed_touch_data_tilde_customer_placement",
+        "last_attributed_touch_data_tilde_customer_secondary_publisher",
+        "last_attributed_touch_data_tilde_customer_sub_site_name",
+        "last_attributed_touch_data_tilde_external_touch_id",
+        "last_attributed_touch_data_tilde_feature",
+        "last_attributed_touch_data_tilde_id",
+        "last_attributed_touch_data_tilde_journey_id",
+        "last_attributed_touch_data_tilde_journey_name",
+        "last_attributed_touch_data_tilde_keyword",
+        "last_attributed_touch_data_tilde_keyword_id",
+        "last_attributed_touch_data_tilde_optimization_model",
+        "last_attributed_touch_data_tilde_organic_search_url",
+        "last_attributed_touch_data_tilde_placement",
+        "last_attributed_touch_data_tilde_placement_id",
+        "last_attributed_touch_data_tilde_secondary_ad_format",
+        "last_attributed_touch_data_tilde_secondary_publisher",
+        "last_attributed_touch_data_tilde_secondary_publisher_id",
+        "last_attributed_touch_data_tilde_stage",
+        "last_attributed_touch_data_tilde_sub_site_name",
+        "last_attributed_touch_data_tilde_tags",
+        "last_attributed_touch_data_tilde_technology_partner",
+        "last_attributed_touch_data_tilde_touch_subtype",
+        "last_attributed_touch_data_tilde_view_id",
+        "last_attributed_touch_data_tilde_view_name",
+        "last_attributed_touch_timestamp",
+        "last_attributed_touch_timestamp_iso",
+        "last_attributed_touch_type",
+        "last_cta_view_data_custom_fields",
+        "last_cta_view_data_dollar_3p",
+        "last_cta_view_data_dollar_meta_is_mobile_data_terms_signed",
+        "last_cta_view_data_plus_touch_id",
+        "last_cta_view_data_plus_via_features",
+        "last_cta_view_data_plus_web_format",
+        "last_cta_view_data_tilde_ad_id",
+        "last_cta_view_data_tilde_ad_name",
+        "last_cta_view_data_tilde_ad_set_id",
+        "last_cta_view_data_tilde_ad_set_name",
+        "last_cta_view_data_tilde_advertising_partner_name",
+        "last_cta_view_data_tilde_agency",
+        "last_cta_view_data_tilde_banner_dimensions",
+        "last_cta_view_data_tilde_branch_ad_format",
+        "last_cta_view_data_tilde_campaign",
+        "last_cta_view_data_tilde_campaign_id",
+        "last_cta_view_data_tilde_campaign_type",
+        "last_cta_view_data_tilde_channel",
+        "last_cta_view_data_tilde_creative_id",
+        "last_cta_view_data_tilde_creative_name",
+        "last_cta_view_data_tilde_external_touch_id",
+        "last_cta_view_data_tilde_feature",
+        "last_cta_view_data_tilde_id",
+        "last_cta_view_data_tilde_keyword_id",
+        "last_cta_view_data_tilde_optimization_model",
+        "last_cta_view_data_tilde_placement",
+        "last_cta_view_data_tilde_secondary_ad_format",
+        "last_cta_view_data_tilde_secondary_publisher",
+        "last_cta_view_data_tilde_stage",
+        "last_cta_view_data_tilde_tags",
+        "last_cta_view_data_tilde_technology_partner",
+        "last_cta_view_timestamp",
+        "last_cta_view_timestamp_iso",
+        "match_guaranteed",
+        "minutes_from_last_attributed_touch_to_event",
+        "name",
+        "organization_id",
+        "organization_name",
+        "origin",
+        "reengagement_activity_attributed",
+        "reengagement_activity_data_has_clicked_ad",
+        "reengagement_activity_data_has_clicked_email",
+        "reengagement_activity_timestamp",
+        "reengagement_activity_touch_data_additional_data_tilde_ad_id",
+        "reengagement_activity_touch_data_additional_data_tilde_ad_set_id",
+        "reengagement_activity_touch_data_additional_data_tilde_campaign_id",
+        "reengagement_activity_touch_data_additional_data_tilde_creative_id",
+        "reengagement_activity_touch_data_dollar_3p",
+        "reengagement_activity_touch_data_dollar_meta_is_mobile_data_terms_signed",
+        "reengagement_activity_touch_data_plus_via_features",
+        "reengagement_activity_touch_data_plus_web_format",
+        "reengagement_activity_touch_data_tilde_ad_name",
+        "reengagement_activity_touch_data_tilde_ad_set_name",
+        "reengagement_activity_touch_data_tilde_advertising_partner_id",
+        "reengagement_activity_touch_data_tilde_advertising_partner_name",
+        "reengagement_activity_touch_data_tilde_agency",
+        "reengagement_activity_touch_data_tilde_agency_id",
+        "reengagement_activity_touch_data_tilde_campaign",
+        "reengagement_activity_touch_data_tilde_channel",
+        "reengagement_activity_touch_data_tilde_creative_name",
+        "reengagement_activity_touch_data_tilde_customer_ad_name",
+        "reengagement_activity_touch_data_tilde_customer_ad_set_name",
+        "reengagement_activity_touch_data_tilde_customer_campaign",
+        "reengagement_activity_touch_data_tilde_customer_keyword",
+        "reengagement_activity_touch_data_tilde_customer_placement",
+        "reengagement_activity_touch_data_tilde_customer_secondary_publisher",
+        "reengagement_activity_touch_data_tilde_customer_sub_site_name",
+        "reengagement_activity_touch_data_tilde_feature",
+        "reengagement_activity_touch_data_tilde_journey_name",
+        "reengagement_activity_touch_data_tilde_keyword",
+        "reengagement_activity_touch_data_tilde_placement",
+        "reengagement_activity_touch_data_tilde_secondary_publisher",
+        "reengagement_activity_touch_data_tilde_stage",
+        "reengagement_activity_touch_data_tilde_tags",
+        "reengagement_activity_touch_data_tilde_view_name",
+        "reengagement_activity_touch_type",
+        "referrer_click_timestamp",
+        "seconds_from_install_to_event",
+        "seconds_from_last_attributed_touch_to_event",
+        "seconds_from_last_attributed_touch_to_store_install_begin",
+        "site_event_items_count",
+        "store_install_begin_timestamp",
+        "timestamp",
+        "timestamp_iso",
+        "universal_link_url",
+        "user_data_aaid",
+        "user_data_android_id",
+        "user_data_app_package_name",
+        "user_data_app_store",
+        "user_data_app_version",
+        "user_data_brand",
+        "user_data_browser",
+        "user_data_build",
+        "user_data_carrier_name",
+        "user_data_cpp_level",
+        "user_data_cpu_type",
+        "user_data_cross_platform_id",
+        "user_data_developer_identity",
+        "user_data_device_locale",
+        "user_data_device_type",
+        "user_data_dma_ad_personalization",
+        "user_data_dma_ad_user_data",
+        "user_data_dma_eea",
+        "user_data_environment",
+        "user_data_geo_city_code",
+        "user_data_geo_city_en",
+        "user_data_geo_country_code",
+        "user_data_geo_country_en",
+        "user_data_geo_dma_code",
+        "user_data_geo_lat",
+        "user_data_geo_lon",
+        "user_data_geo_postal_code",
+        "user_data_geo_region_code",
+        "user_data_geo_region_en",
+        "user_data_http_referrer",
+        "user_data_idfa",
+        "user_data_idfv",
+        "user_data_installer_package_name",
+        "user_data_internet_connection_type",
+        "user_data_ip",
+        "user_data_is_jailbroken",
+        "user_data_kindle_id",
+        "user_data_language",
+        "user_data_limit_ad_tracking",
+        "user_data_model",
+        "user_data_oaid",
+        "user_data_opted_in_status",
+        "user_data_os",
+        "user_data_os_version",
+        "user_data_os_version_android",
+        "user_data_past_cross_platform_ids",
+        "user_data_platform",
+        "user_data_prob_cross_platform_ids",
+        "user_data_roku_rida",
+        "user_data_screen_height",
+        "user_data_screen_width",
+        "user_data_sdk_version",
+        "user_data_user_agent",
+        "user_data_windows_aid"
+       ]
+      }
+     },
+     "limit": {
+      "description": "The maximum number of results to return.",
+      "type": "integer",
+      "minimum": "1",
+      "format": "int32",
+      "example": "100",
+      "default": "100"
+     },
+     "timezone": {
+      "type": "string",
+      "description": "Timezone for results. Accepts [tz database strings](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) like 'America/Los_Angeles'. Results are returned in the Branch Dashboard timezone if not provided. Will default to UTC only if Branch Dashboard timezone is not set.\n",
+      "example": "America/Los_Angeles",
+      "default": "America/Los_Angeles",
+      "enum": [
+       "Africa/Abidjan",
+       "Africa/Accra",
+       "Africa/Addis_Ababa",
+       "Africa/Algiers",
+       "Africa/Asmara",
+       "Africa/Asmera",
+       "Africa/Bamako",
+       "Africa/Bangui",
+       "Africa/Banjul",
+       "Africa/Bissau",
+       "Africa/Blantyre",
+       "Africa/Brazzaville",
+       "Africa/Bujumbura",
+       "Africa/Cairo",
+       "Africa/Casablanca",
+       "Africa/Ceuta",
+       "Africa/Conakry",
+       "Africa/Dakar",
+       "Africa/Dar_es_Salaam",
+       "Africa/Djibouti",
+       "Africa/Douala",
+       "Africa/El_Aaiun",
+       "Africa/Freetown",
+       "Africa/Gaborone",
+       "Africa/Harare",
+       "Africa/Johannesburg",
+       "Africa/Juba",
+       "Africa/Kampala",
+       "Africa/Khartoum",
+       "Africa/Kigali",
+       "Africa/Kinshasa",
+       "Africa/Lagos",
+       "Africa/Libreville",
+       "Africa/Lome",
+       "Africa/Luanda",
+       "Africa/Lubumbashi",
+       "Africa/Lusaka",
+       "Africa/Malabo",
+       "Africa/Maputo",
+       "Africa/Maseru",
+       "Africa/Mbabane",
+       "Africa/Mogadishu",
+       "Africa/Monrovia",
+       "Africa/Nairobi",
+       "Africa/Ndjamena",
+       "Africa/Niamey",
+       "Africa/Nouakchott",
+       "Africa/Ouagadougou",
+       "Africa/Porto-Novo",
+       "Africa/Sao_Tome",
+       "Africa/Timbuktu",
+       "Africa/Tripoli",
+       "Africa/Tunis",
+       "Africa/Windhoek",
+       "America/Adak",
+       "America/Anchorage",
+       "America/Anguilla",
+       "America/Antigua",
+       "America/Araguaina",
+       "America/Argentina/Buenos_Aires",
+       "America/Argentina/Catamarca",
+       "America/Argentina/ComodRivadavia",
+       "America/Argentina/Cordoba",
+       "America/Argentina/Jujuy",
+       "America/Argentina/La_Rioja",
+       "America/Argentina/Mendoza",
+       "America/Argentina/Rio_Gallegos",
+       "America/Argentina/Salta",
+       "America/Argentina/San_Juan",
+       "America/Argentina/San_Luis",
+       "America/Argentina/Tucuman",
+       "America/Argentina/Ushuaia",
+       "America/Aruba",
+       "America/Asuncion",
+       "America/Atikokan",
+       "America/Atka",
+       "America/Bahia",
+       "America/Bahia_Banderas",
+       "America/Barbados",
+       "America/Belem",
+       "America/Belize",
+       "America/Blanc-Sablon",
+       "America/Boa_Vista",
+       "America/Bogota",
+       "America/Boise",
+       "America/Buenos_Aires",
+       "America/Cambridge_Bay",
+       "America/Campo_Grande",
+       "America/Cancun",
+       "America/Caracas",
+       "America/Catamarca",
+       "America/Cayenne",
+       "America/Cayman",
+       "America/Chicago",
+       "America/Chihuahua",
+       "America/Coral_Harbour",
+       "America/Cordoba",
+       "America/Costa_Rica",
+       "America/Creston",
+       "America/Cuiaba",
+       "America/Curacao",
+       "America/Danmarkshavn",
+       "America/Dawson",
+       "America/Dawson_Creek",
+       "America/Denver",
+       "America/Detroit",
+       "America/Dominica",
+       "America/Edmonton",
+       "America/Eirunepe",
+       "America/El_Salvador",
+       "America/Ensenada",
+       "America/Fort_Nelson",
+       "America/Fort_Wayne",
+       "America/Fortaleza",
+       "America/Glace_Bay",
+       "America/Godthab",
+       "America/Goose_Bay",
+       "America/Grand_Turk",
+       "America/Grenada",
+       "America/Guadeloupe",
+       "America/Guatemala",
+       "America/Guayaquil",
+       "America/Guyana",
+       "America/Halifax",
+       "America/Havana",
+       "America/Hermosillo",
+       "America/Indiana/Indianapolis",
+       "America/Indiana/Knox",
+       "America/Indiana/Marengo",
+       "America/Indiana/Petersburg",
+       "America/Indiana/Tell_City",
+       "America/Indiana/Vevay",
+       "America/Indiana/Vincennes",
+       "America/Indiana/Winamac",
+       "America/Indianapolis",
+       "America/Inuvik",
+       "America/Iqaluit",
+       "America/Jamaica",
+       "America/Jujuy",
+       "America/Juneau",
+       "America/Kentucky/Louisville",
+       "America/Kentucky/Monticello",
+       "America/Knox_IN",
+       "America/Kralendijk",
+       "America/La_Paz",
+       "America/Lima",
+       "America/Los_Angeles",
+       "America/Louisville",
+       "America/Lower_Princes",
+       "America/Maceio",
+       "America/Managua",
+       "America/Manaus",
+       "America/Marigot",
+       "America/Martinique",
+       "America/Matamoros",
+       "America/Mazatlan",
+       "America/Mendoza",
+       "America/Menominee",
+       "America/Merida",
+       "America/Metlakatla",
+       "America/Mexico_City",
+       "America/Miquelon",
+       "America/Moncton",
+       "America/Monterrey",
+       "America/Montevideo",
+       "America/Montreal",
+       "America/Montserrat",
+       "America/Nassau",
+       "America/New_York",
+       "America/Nipigon",
+       "America/Nome",
+       "America/Noronha",
+       "America/North_Dakota/Beulah",
+       "America/North_Dakota/Center",
+       "America/North_Dakota/New_Salem",
+       "America/Nuuk",
+       "America/Ojinaga",
+       "America/Panama",
+       "America/Pangnirtung",
+       "America/Paramaribo",
+       "America/Phoenix",
+       "America/Port-au-Prince",
+       "America/Port_of_Spain",
+       "America/Porto_Acre",
+       "America/Porto_Velho",
+       "America/Puerto_Rico",
+       "America/Punta_Arenas",
+       "America/Rainy_River",
+       "America/Rankin_Inlet",
+       "America/Recife",
+       "America/Regina",
+       "America/Resolute",
+       "America/Rio_Branco",
+       "America/Rosario",
+       "America/Santa_Isabel",
+       "America/Santarem",
+       "America/Santiago",
+       "America/Santo_Domingo",
+       "America/Sao_Paulo",
+       "America/Scoresbysund",
+       "America/Shiprock",
+       "America/Sitka",
+       "America/St_Barthelemy",
+       "America/St_Johns",
+       "America/St_Kitts",
+       "America/St_Lucia",
+       "America/St_Thomas",
+       "America/St_Vincent",
+       "America/Swift_Current",
+       "America/Tegucigalpa",
+       "America/Thule",
+       "America/Thunder_Bay",
+       "America/Tijuana",
+       "America/Toronto",
+       "America/Tortola",
+       "America/Vancouver",
+       "America/Virgin",
+       "America/Whitehorse",
+       "America/Winnipeg",
+       "America/Yakutat",
+       "America/Yellowknife",
+       "Antarctica/Casey",
+       "Antarctica/Davis",
+       "Antarctica/DumontDUrville",
+       "Antarctica/Macquarie",
+       "Antarctica/Mawson",
+       "Antarctica/McMurdo",
+       "Antarctica/Palmer",
+       "Antarctica/Rothera",
+       "Antarctica/South_Pole",
+       "Antarctica/Syowa",
+       "Antarctica/Troll",
+       "Antarctica/Vostok",
+       "Arctic/Longyearbyen",
+       "Asia/Aden",
+       "Asia/Almaty",
+       "Asia/Amman",
+       "Asia/Anadyr",
+       "Asia/Aqtau",
+       "Asia/Aqtobe",
+       "Asia/Ashgabat",
+       "Asia/Ashkhabad",
+       "Asia/Atyrau",
+       "Asia/Baghdad",
+       "Asia/Bahrain",
+       "Asia/Baku",
+       "Asia/Bangkok",
+       "Asia/Barnaul",
+       "Asia/Beirut",
+       "Asia/Bishkek",
+       "Asia/Brunei",
+       "Asia/Calcutta",
+       "Asia/Chita",
+       "Asia/Choibalsan",
+       "Asia/Chongqing",
+       "Asia/Chungking",
+       "Asia/Colombo",
+       "Asia/Dacca",
+       "Asia/Damascus",
+       "Asia/Dhaka",
+       "Asia/Dili",
+       "Asia/Dubai",
+       "Asia/Dushanbe",
+       "Asia/Famagusta",
+       "Asia/Gaza",
+       "Asia/Harbin",
+       "Asia/Hebron",
+       "Asia/Ho_Chi_Minh",
+       "Asia/Hong_Kong",
+       "Asia/Hovd",
+       "Asia/Irkutsk",
+       "Asia/Istanbul",
+       "Asia/Jakarta",
+       "Asia/Jayapura",
+       "Asia/Jerusalem",
+       "Asia/Kabul",
+       "Asia/Kamchatka",
+       "Asia/Karachi",
+       "Asia/Kashgar",
+       "Asia/Kathmandu",
+       "Asia/Katmandu",
+       "Asia/Khandyga",
+       "Asia/Kolkata",
+       "Asia/Krasnoyarsk",
+       "Asia/Kuala_Lumpur",
+       "Asia/Kuching",
+       "Asia/Kuwait",
+       "Asia/Macao",
+       "Asia/Macau",
+       "Asia/Magadan",
+       "Asia/Makassar",
+       "Asia/Manila",
+       "Asia/Muscat",
+       "Asia/Nicosia",
+       "Asia/Novokuznetsk",
+       "Asia/Novosibirsk",
+       "Asia/Omsk",
+       "Asia/Oral",
+       "Asia/Phnom_Penh",
+       "Asia/Pontianak",
+       "Asia/Pyongyang",
+       "Asia/Qatar",
+       "Asia/Qostanay",
+       "Asia/Qyzylorda",
+       "Asia/Rangoon",
+       "Asia/Riyadh",
+       "Asia/Saigon",
+       "Asia/Sakhalin",
+       "Asia/Samarkand",
+       "Asia/Seoul",
+       "Asia/Shanghai",
+       "Asia/Singapore",
+       "Asia/Srednekolymsk",
+       "Asia/Taipei",
+       "Asia/Tashkent",
+       "Asia/Tbilisi",
+       "Asia/Tehran",
+       "Asia/Tel_Aviv",
+       "Asia/Thimbu",
+       "Asia/Thimphu",
+       "Asia/Tokyo",
+       "Asia/Tomsk",
+       "Asia/Ujung_Pandang",
+       "Asia/Ulaanbaatar",
+       "Asia/Ulan_Bator",
+       "Asia/Urumqi",
+       "Asia/Ust-Nera",
+       "Asia/Vientiane",
+       "Asia/Vladivostok",
+       "Asia/Yakutsk",
+       "Asia/Yangon",
+       "Asia/Yekaterinburg",
+       "Asia/Yerevan",
+       "Atlantic/Azores",
+       "Atlantic/Bermuda",
+       "Atlantic/Canary",
+       "Atlantic/Cape_Verde",
+       "Atlantic/Faeroe",
+       "Atlantic/Faroe",
+       "Atlantic/Jan_Mayen",
+       "Atlantic/Madeira",
+       "Atlantic/Reykjavik",
+       "Atlantic/South_Georgia",
+       "Atlantic/St_Helena",
+       "Atlantic/Stanley",
+       "Australia/ACT",
+       "Australia/Adelaide",
+       "Australia/Brisbane",
+       "Australia/Broken_Hill",
+       "Australia/Canberra",
+       "Australia/Currie",
+       "Australia/Darwin",
+       "Australia/Eucla",
+       "Australia/Hobart",
+       "Australia/LHI",
+       "Australia/Lindeman",
+       "Australia/Lord_Howe",
+       "Australia/Melbourne",
+       "Australia/North",
+       "Australia/NSW",
+       "Australia/Perth",
+       "Australia/Queensland",
+       "Australia/South",
+       "Australia/Sydney",
+       "Australia/Tasmania",
+       "Australia/Victoria",
+       "Australia/West",
+       "Australia/Yancowinna",
+       "Brazil/Acre",
+       "Brazil/DeNoronha",
+       "Brazil/East",
+       "Brazil/West",
+       "Canada/Atlantic",
+       "Canada/Central",
+       "Canada/Eastern",
+       "Canada/Mountain",
+       "Canada/Newfoundland",
+       "Canada/Pacific",
+       "Canada/Saskatchewan",
+       "Canada/Yukon",
+       "CET",
+       "Chile/Continental",
+       "Chile/EasterIsland",
+       "CST6CDT",
+       "Cuba",
+       "EET",
+       "Egypt",
+       "Eire",
+       "EST",
+       "EST5EDT",
+       "Etc/GMT",
+       "Etc/GMT+0",
+       "Etc/GMT+1",
+       "Etc/GMT+10",
+       "Etc/GMT+11",
+       "Etc/GMT+12",
+       "Etc/GMT+2",
+       "Etc/GMT+3",
+       "Etc/GMT+4",
+       "Etc/GMT+5",
+       "Etc/GMT+6",
+       "Etc/GMT+7",
+       "Etc/GMT+8",
+       "Etc/GMT+9",
+       "Etc/GMT-0",
+       "Etc/GMT-1",
+       "Etc/GMT-10",
+       "Etc/GMT-11",
+       "Etc/GMT-12",
+       "Etc/GMT-13",
+       "Etc/GMT-14",
+       "Etc/GMT-2",
+       "Etc/GMT-3",
+       "Etc/GMT-4",
+       "Etc/GMT-5",
+       "Etc/GMT-6",
+       "Etc/GMT-7",
+       "Etc/GMT-8",
+       "Etc/GMT-9",
+       "Etc/GMT0",
+       "Etc/Greenwich",
+       "Etc/UCT",
+       "Etc/Universal",
+       "Etc/UTC",
+       "Etc/Zulu",
+       "Europe/Amsterdam",
+       "Europe/Andorra",
+       "Europe/Astrakhan",
+       "Europe/Athens",
+       "Europe/Belfast",
+       "Europe/Belgrade",
+       "Europe/Berlin",
+       "Europe/Bratislava",
+       "Europe/Brussels",
+       "Europe/Bucharest",
+       "Europe/Budapest",
+       "Europe/Busingen",
+       "Europe/Chisinau",
+       "Europe/Copenhagen",
+       "Europe/Dublin",
+       "Europe/Gibraltar",
+       "Europe/Guernsey",
+       "Europe/Helsinki",
+       "Europe/Isle_of_Man",
+       "Europe/Istanbul",
+       "Europe/Jersey",
+       "Europe/Kaliningrad",
+       "Europe/Kiev",
+       "Europe/Kirov",
+       "Europe/Lisbon",
+       "Europe/Ljubljana",
+       "Europe/London",
+       "Europe/Luxembourg",
+       "Europe/Madrid",
+       "Europe/Malta",
+       "Europe/Mariehamn",
+       "Europe/Minsk",
+       "Europe/Monaco",
+       "Europe/Moscow",
+       "Europe/Nicosia",
+       "Europe/Oslo",
+       "Europe/Paris",
+       "Europe/Podgorica",
+       "Europe/Prague",
+       "Europe/Riga",
+       "Europe/Rome",
+       "Europe/Samara",
+       "Europe/San_Marino",
+       "Europe/Sarajevo",
+       "Europe/Saratov",
+       "Europe/Simferopol",
+       "Europe/Skopje",
+       "Europe/Sofia",
+       "Europe/Stockholm",
+       "Europe/Tallinn",
+       "Europe/Tirane",
+       "Europe/Tiraspol",
+       "Europe/Ulyanovsk",
+       "Europe/Uzhgorod",
+       "Europe/Vaduz",
+       "Europe/Vatican",
+       "Europe/Vienna",
+       "Europe/Vilnius",
+       "Europe/Volgograd",
+       "Europe/Warsaw",
+       "Europe/Zagreb",
+       "Europe/Zaporozhye",
+       "Europe/Zurich",
+       "Factory",
+       "GB",
+       "GB-Eire",
+       "GMT",
+       "GMT+0",
+       "GMT-0",
+       "GMT0",
+       "Greenwich",
+       "Hongkong",
+       "HST",
+       "Iceland",
+       "Indian/Antananarivo",
+       "Indian/Chagos",
+       "Indian/Christmas",
+       "Indian/Cocos",
+       "Indian/Comoro",
+       "Indian/Kerguelen",
+       "Indian/Mahe",
+       "Indian/Maldives",
+       "Indian/Mauritius",
+       "Indian/Mayotte",
+       "Indian/Reunion",
+       "Iran",
+       "Israel",
+       "Jamaica",
+       "Japan",
+       "Kwajalein",
+       "Libya",
+       "MET",
+       "Mexico/BajaNorte",
+       "Mexico/BajaSur",
+       "Mexico/General",
+       "MST",
+       "MST7MDT",
+       "Navajo",
+       "NZ",
+       "NZ-CHAT",
+       "Pacific/Apia",
+       "Pacific/Auckland",
+       "Pacific/Bougainville",
+       "Pacific/Chatham",
+       "Pacific/Chuuk",
+       "Pacific/Easter",
+       "Pacific/Efate",
+       "Pacific/Enderbury",
+       "Pacific/Fakaofo",
+       "Pacific/Fiji",
+       "Pacific/Funafuti",
+       "Pacific/Galapagos",
+       "Pacific/Gambier",
+       "Pacific/Guadalcanal",
+       "Pacific/Guam",
+       "Pacific/Honolulu",
+       "Pacific/Johnston",
+       "Pacific/Kanton",
+       "Pacific/Kiritimati",
+       "Pacific/Kosrae",
+       "Pacific/Kwajalein",
+       "Pacific/Majuro",
+       "Pacific/Marquesas",
+       "Pacific/Midway",
+       "Pacific/Nauru",
+       "Pacific/Niue",
+       "Pacific/Norfolk",
+       "Pacific/Noumea",
+       "Pacific/Pago_Pago",
+       "Pacific/Palau",
+       "Pacific/Pitcairn",
+       "Pacific/Pohnpei",
+       "Pacific/Ponape",
+       "Pacific/Port_Moresby",
+       "Pacific/Rarotonga",
+       "Pacific/Saipan",
+       "Pacific/Samoa",
+       "Pacific/Tahiti",
+       "Pacific/Tarawa",
+       "Pacific/Tongatapu",
+       "Pacific/Truk",
+       "Pacific/Wake",
+       "Pacific/Wallis",
+       "Pacific/Yap",
+       "Poland",
+       "Portugal",
+       "PRC",
+       "PST8PDT",
+       "ROC",
+       "ROK",
+       "Singapore",
+       "Turkey",
+       "UCT",
+       "Universal",
+       "US/Alaska",
+       "US/Aleutian",
+       "US/Arizona",
+       "US/Central",
+       "US/East-Indiana",
+       "US/Eastern",
+       "US/Hawaii",
+       "US/Indiana-Starke",
+       "US/Michigan",
+       "US/Mountain",
+       "US/Pacific",
+       "US/Samoa",
+       "UTC",
+       "W-SU",
+       "WET",
+       "Zulu"
+      ]
+     },
+     "filter": {
+      "type": "array",
+      "description": "A filter requires an array with 3 specific string values: [\"[Cthulu Prefix](https://help.branch.io/developers-hub/docs/custom-exports#cthulhu-filter-specification)\", \"[EO Field Key](https://help.branch.io/developers-hub/reference/custom-exports-api#available-eo-fields)\", \"EO Field Value\"]",
+      "example": [
+       "eq",
+       "name",
+       "PURCHASE"
+      ],
+      "default": [
+       "eq",
+       "name",
+       "PURCHASE"
+      ],
+      "maxItems": "3",
+      "uniqueItems": "true",
+      "items": {
+       "type": "string"
+      }
+     },
+     "response_format": {
+      "description": "Format of returned data. json or csv",
+      "type": "string",
+      "default": "csv",
+      "enum": [
+       "csv",
+       "json"
+      ]
+     },
+     "allow_multiple_files": {
+      "type": "boolean",
+      "description": "Set this parameter to `true` if you want more than 15 million records returned."
+     },
+     "response_format_compression": {
+      "description": "The file compression method to use for the data.\nRequired if `allow_multiple_files` is set to `true`.",
+      "enum": [
+       "gz",
+       "snappy"
+      ]
+     }
+    }
+   },
+   "inline_response_200_post_export": {
+    "type": "object",
+    "properties": {
+     "handle": {
+      "type": "string",
+      "example": "xxxx-0000",
+      "description": "Unique request handle generated against the endpoint call."
+     },
+     "export_job_status_url": {
+      "type": "string",
+      "description": "The URL of the export request.",
+      "example": "https://api2.branch.io/v2/logs/{UNIQUE_ALPHANUMERICAL_JOB_HANDLE_ID_HERE}?app_id={APP_ID_HERE}"
+     }
+    }
+   },
+   "inline_response_401": {
+    "type": "object",
+    "properties": {
+     "error": {
+      "$ref": "#/components/schemas/inline_response_401_error"
+     }
+    }
+   },
+   "inline_response_404": {
+    "type": "object",
+    "properties": {
+     "error": {
+      "$ref": "#/components/schemas/inline_response_404_error"
+     }
+    }
+   },
+   "inline_response_500": {
+    "type": "object",
+    "properties": {
+     "error": {
+      "$ref": "#/components/schemas/inline_response_500_error"
+     }
+    }
+   },
+   "inline_response_401_error": {
+    "type": "object",
+    "properties": {
+     "message": {
+      "type": "string",
+      "example": "Auth Client failed response"
+     },
+     "code": {
+      "type": "integer",
+      "example": "401"
+     }
+    }
+   },
+   "inline_response_404_error": {
+    "type": "object",
+    "properties": {
+     "message": {
+      "type": "string",
+      "example": "User Not Found"
+     },
+     "code": {
+      "type": "integer",
+      "example": "404"
+     }
+    }
+   },
+   "inline_response_500_error": {
+    "type": "object",
+    "properties": {
+     "message": {
+      "type": "string",
+      "example": "Internal Server Error"
+     },
+     "code": {
+      "type": "integer",
+      "example": "500"
+     }
+    }
+   },
+   "data_readiness_body": {
+    "type": "object",
+    "description": "Check Data Readiness Request Body",
+    "properties": {
+     "date": {
+      "type": "string",
+      "description": "The start of the interval time range, in the format YYYY-MM-DD hh:mm:ss (must be within the past year).",
+      "example": "2024-01-05 01:00:00"
+     },
+     "warehouse_meta_type": {
+      "type": "string",
+      "description": "The type of data to check for.",
+      "example": "EVENT",
+      "enum": [
+       "EVENT",
+       "AGGREGATE"
+      ]
+     },
+     "topic": {
+      "type": "string",
+      "description": "The topic associated with the data.",
+      "example": "eo_open",
+      "enum": [
+       "eo_impression",
+       "eo_click",
+       "eo_branch_cta_view",
+       "eo_open",
+       "eo_install",
+       "eo_reinstall",
+       "eo_web_session_start",
+       "eo_pageview",
+       "eo_commerce_event",
+       "eo_custom_event",
+       "eo_content_event",
+       "eo_dismissal",
+       "eo_user_lifecycle_event",
+       "skadnetwork_valid_messages",
+       "skadnetwork_invalid_messages",
+       "webhook2",
+       "eo_click_blocked",
+       "eo_impression_blocked",
+       "eo_install_blocked",
+       "eo_reinstall_blocked",
+       "eo_open_blocked",
+       "eo_web_session_start_blocked",
+       "eo_pageview_blocked",
+       "eo_custom_event_blocked",
+       "eo_content_event_blocked",
+       "eo_commerce_event_blocked",
+       "eo_user_lifecycle_event_blocked",
+       "eo_branch_cta_view_blocked",
+       "eo_san_touch"
+      ]
+     },
+     "app_id": {
+      "type": "integer",
+      "description": "Your Branch App ID, found under Account Settings in your Branch Dashboard.",
+      "example": "0"
+     }
+    },
+    "required": [
+     "date",
+     "warehouse_meta_type",
+     "topic",
+     "app_id"
+    ]
+   },
+   "inline_response_200_post_data_readiness": {
+    "type": "object",
+    "properties": {
+     "data_ready": {
+      "type": "boolean",
+      "example": "true",
+      "description": "Whether the data is currently available."
+     },
+     "date": {
+      "type": "string",
+      "description": "The date associated with the data.",
+      "example": "2024-01-05 01:00:00"
+     }
+    }
+   },
+   "inline_response_400_data_readiness": {
+    "type": "object",
+    "properties": {
+     "error": {
+      "$ref": "#/components/schemas/inline_response_400_data_readiness_error"
+     }
+    }
+   },
+   "inline_response_400_data_readiness_error": {
+    "type": "object",
+    "properties": {
+     "message": {
+      "type": "string",
+      "example": "Report type is invalid."
+     },
+     "code": {
+      "type": "integer",
+      "example": "400"
+     }
+    }
+   },
+   "inline_response_200_get_export": {
+    "type": "object",
+    "properties": {
+     "code": {
+      "type": "integer",
+      "example": "200",
+      "description": "Response code"
+     },
+     "lines_exported": {
+      "type": "integer",
+      "example": "2000000",
+      "description": "Number of lines exported against the originated request."
+     },
+     "status": {
+      "type": "string",
+      "example": "complete",
+      "enum": [
+       "pending",
+       "running",
+       "complete",
+       "fail"
+      ],
+      "description": "Request status over the current execution time"
+     },
+     "status_url": {
+      "type": "string",
+      "description": "The URL of the export request.",
+      "example": "https://branch-exports-web-usw2.s3.us-west-1.amazonaws.com/v2/y%3D2023/m%3D05/d%3D17/app_id%3D{APP_ID_HERE}/job_id%3D{JOB_ID_HERE}/task_id%3D{TASK_ID_HERE}/unique-csv-file-name-here.csv?X-Amz-Algorithm={AMZ_ALGORITHM_HERE}&X-Amz-Date={AMZ_DATE_HERE}&X-Amz-SignedHeaders={AMZ_SIGNED_HEADERS_HERE}&X-Amz-Expires={AMZ_EXPIRATION_HERE}&X-Amz-Credential={AMZ_CREDENTIAL_HERE}&X-Amz-Signature={AMZ_SIGNATURE_HERE}"
+     }
+    }
+   },
+   "inline_response_400": {
+    "type": "object",
+    "properties": {
+     "error": {
+      "$ref": "#/components/schemas/inline_response_400_error"
+     }
+    }
+   },
+   "inline_response_400_error": {
+    "type": "object",
+    "properties": {
+     "message": {
+      "type": "string",
+      "example": "Authentication failed !"
+     },
+     "code": {
+      "type": "integer",
+      "example": "400"
+     }
+    }
+   }
+  },
+  "securitySchemes": {
+   "appId": {
+    "type": "apiKey",
+    "description": "app_id | Unique identifier for Branch app of requested data.",
+    "name": "app_id",
+    "in": "query"
+   },
+   "accessToken": {
+    "type": "apiKey",
+    "description": "Access-Token | Key that encapsulates the user's permission w.r.t an org. Obtained from the Branch Dashboard, needed for [authentication](https://help.branch.io/developers-hub/docs/branch-aggregate-api#authentication).\n",
+    "name": "Access-Token",
+    "in": "header"
+   }
+  }
+ }
+}
