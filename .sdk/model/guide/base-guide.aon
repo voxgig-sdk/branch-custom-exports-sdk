@@ -1,0 +1,26 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 3
+  metrics: count: path: 3
+  metrics: count: method: 3
+
+  entity: inline_response_200_get_export: {
+    path: "/logs": {
+      op: create: method: *POST
+    }
+    path: "/logs/{request_handle}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: inline_response_200_post_data_readiness: {
+    path: "/data/ready": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: inline_response_200_post_export: {
+  }
+
+}

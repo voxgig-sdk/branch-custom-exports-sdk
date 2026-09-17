@@ -1,0 +1,40 @@
+# BasicInlineResponse200GetExportFlow
+
+main: kit: flow: BasicInlineResponse200GetExportFlow:
+{
+  entity: "inline_response_200_get_export",
+  kind: "basic",
+  name: "BasicInlineResponse200GetExportFlow",
+  step: [
+    {
+      input: {
+        ref: "inline_response_200_get_export_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      input: {
+        ref: "inline_response_200_get_export_ref01",
+        srcdatavar: "inline_response_200_get_export_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "inline_response_200_get_export01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-inline_response_200_get_export_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicInlineResponse200GetExportFlow"
+}

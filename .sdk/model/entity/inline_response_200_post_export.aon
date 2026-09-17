@@ -1,0 +1,10 @@
+# Entity: inline_response_200_post_export
+
+main: kit: entity: inline_response_200_post_export: {
+
+  alias: field: {}
+
+  name: "inline_response_200_post_export"
+
+
+}

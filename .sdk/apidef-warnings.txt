@@ -1,0 +1,11 @@
+{
+  point: "warning"
+  note: "No paths defined for entity=inline_response_200_post_export"
+  entm: {
+    name: "inline_response_200_post_export"
+    orig: "inline_response_200_post_export"
+    path: {
+    }
+  }
+
+}

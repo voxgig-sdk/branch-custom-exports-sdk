@@ -1,0 +1,9 @@
+# BasicInlineResponse200PostExportFlow
+
+main: kit: flow: BasicInlineResponse200PostExportFlow:
+{
+  entity: "inline_response_200_post_export",
+  kind: "basic",
+  name: "BasicInlineResponse200PostExportFlow",
+  "key$": "BasicInlineResponse200PostExportFlow"
+}

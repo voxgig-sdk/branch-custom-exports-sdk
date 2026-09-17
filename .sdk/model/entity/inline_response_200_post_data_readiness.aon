@@ -1,0 +1,79 @@
+# Entity: inline_response_200_post_data_readiness
+
+main: kit: entity: inline_response_200_post_data_readiness: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "app_id"
+      req: true
+      short: "Your Branch App ID, found under Account Settings in your Branch Dashboard."
+      type: "`$INTEGER`"
+    }
+    {
+      name: "data_ready"
+      req: false
+      short: "Whether the data is currently available."
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "date"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      req: false
+      short: "The date associated with the data."
+      type: "`$STRING`"
+    }
+    {
+      name: "topic"
+      req: true
+      short: "The topic associated with the data."
+      type: "`$STRING`"
+    }
+    {
+      name: "warehouse_meta_type"
+      req: true
+      short: "The type of data to check for."
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "inline_response_200_post_data_readiness"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          contract: {
+            id: "POST /data/ready"
+            json: "{\"operationId\":\"checkDataReadiness\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Check Data Readiness Request Body\",\"properties\":{\"app_id\":{\"description\":\"Your Branch App ID, found under Account Settings in your Branch Dashboard.\",\"example\":\"0\",\"type\":\"integer\"},\"date\":{\"description\":\"The start of the interval time range, in the format YYYY-MM-DD hh:mm:ss (must be within the past year).\",\"example\":\"2024-01-05 01:00:00\",\"type\":\"string\"},\"topic\":{\"description\":\"The topic associated with the data.\",\"enum\":[\"eo_impression\",\"eo_click\",\"eo_branch_cta_view\",\"eo_open\",\"eo_install\",\"eo_reinstall\",\"eo_web_session_start\",\"eo_pageview\",\"eo_commerce_event\",\"eo_custom_event\",\"eo_content_event\",\"eo_dismissal\",\"eo_user_lifecycle_event\",\"skadnetwork_valid_messages\",\"skadnetwork_invalid_messages\",\"webhook2\",\"eo_click_blocked\",\"eo_impression_blocked\",\"eo_install_blocked\",\"eo_reinstall_blocked\",\"eo_open_blocked\",\"eo_web_session_start_blocked\",\"eo_pageview_blocked\",\"eo_custom_event_blocked\",\"eo_content_event_blocked\",\"eo_commerce_event_blocked\",\"eo_user_lifecycle_event_blocked\",\"eo_branch_cta_view_blocked\",\"eo_san_touch\"],\"example\":\"eo_open\",\"type\":\"string\"},\"warehouse_meta_type\":{\"description\":\"The type of data to check for.\",\"enum\":[\"EVENT\",\"AGGREGATE\"],\"example\":\"EVENT\",\"type\":\"string\"}},\"required\":[\"date\",\"warehouse_meta_type\",\"topic\",\"app_id\"],\"type\":\"object\"}}}},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"examples\":{\"Result\":{\"value\":\"{\\n  \\\"data_ready\\\": true,\\n  \\\"date\\\": \\\"2024-01-05 01:00:00\\\"\\n}\\n\"}},\"schema\":{\"properties\":{\"data_ready\":{\"description\":\"Whether the data is currently available.\",\"example\":\"true\",\"type\":\"boolean\"},\"date\":{\"description\":\"The date associated with the data.\",\"example\":\"2024-01-05 01:00:00\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Data Readiness Status Successfully Retrieved\"},\"400\":{\"content\":{\"application/json\":{\"examples\":{\"Result\":{\"value\":\"{\\n    \\\"error\\\": {\\n        \\\"message\\\": \\\"Topic is invalid or data retention for requested data has expired.\\\",\\n        \\\"code\\\": 400\\n    }\\n}\"}},\"schema\":{\"properties\":{\"error\":{\"properties\":{\"code\":{\"example\":\"400\",\"type\":\"integer\"},\"message\":{\"example\":\"Report type is invalid.\",\"type\":\"string\"}},\"type\":\"object\"}},\"type\":\"object\"}}},\"description\":\"Invalid Request\"},\"429\":{\"content\":{\"application/json\":{\"examples\":{\"Result\":{\"value\":\"{\\n    \\\"error\\\": {\\n        \\\"code\\\": 429,\\n        \\\"message\\\": \\\"Rate limit reached.\\\"\\n    }\\n}\"}},\"schema\":{\"properties\":{\"error\":{\"properties\":{\"code\":{\"example\":\"429\",\"type\":\"integer\"},\"message\":{\"example\":\"Rate limit reached.\",\"type\":\"string\"}},\"type\":\"object\"}},\"type\":\"object\"}}},\"description\":\"Rate Limit Reached\"},\"500\":{\"content\":{\"application/json\":{\"examples\":{\"Result\":{\"value\":\"{\\n    \\\"error\\\": {\\n        \\\"message\\\": \\\"Our product is failing to serve your request at this moment. Please try again later.\\\",\\n        \\\"code\\\": 500\\n    }\\n}\"}},\"schema\":{\"properties\":{\"error\":{\"properties\":{\"code\":{\"example\":\"500\",\"type\":\"integer\"},\"message\":{\"example\":\"Internal Server Error\",\"type\":\"string\"}},\"type\":\"object\"}},\"type\":\"object\"}}},\"description\":\"Internal Server Error\"}},\"security\":[{\"accessToken\":[],\"appId\":[]}],\"securitySchemes\":{\"accessToken\":{\"description\":\"Access-Token | Key that encapsulates the user's permission w.r.t an org. Obtained from the Branch Dashboard, needed for [authentication](https://help.branch.io/developers-hub/docs/branch-aggregate-api#authentication).\\n\",\"in\":\"header\",\"name\":\"Access-Token\",\"type\":\"apiKey\"},\"appId\":{\"description\":\"app_id | Unique identifier for Branch app of requested data.\",\"in\":\"query\",\"name\":\"app_id\",\"type\":\"apiKey\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
+          }
+          method: "POST"
+          orig: "/data/ready"
+          segments: [
+            {
+              lit: "data"
+            }
+            {
+              lit: "ready"
+            }
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

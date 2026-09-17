@@ -1,0 +1,18 @@
+# BasicInlineResponse200PostDataReadinessFlow
+
+main: kit: flow: BasicInlineResponse200PostDataReadinessFlow:
+{
+  entity: "inline_response_200_post_data_readiness",
+  kind: "basic",
+  name: "BasicInlineResponse200PostDataReadinessFlow",
+  step: [
+    {
+      input: {
+        ref: "inline_response_200_post_data_readiness_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicInlineResponse200PostDataReadinessFlow"
+}

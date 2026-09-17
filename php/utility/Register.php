@@ -1,0 +1,70 @@
+<?php
+declare(strict_types=1);
+
+// BranchCustomExports SDK utility registration
+
+require_once __DIR__ . '/../core/UtilityType.php';
+require_once __DIR__ . '/Clean.php';
+require_once __DIR__ . '/Done.php';
+require_once __DIR__ . '/MakeError.php';
+require_once __DIR__ . '/FeatureAdd.php';
+require_once __DIR__ . '/FeatureHook.php';
+require_once __DIR__ . '/FeatureInit.php';
+require_once __DIR__ . '/Fetcher.php';
+require_once __DIR__ . '/MakeFetchDef.php';
+require_once __DIR__ . '/MakeContext.php';
+require_once __DIR__ . '/MakeOptions.php';
+require_once __DIR__ . '/MakeRequest.php';
+require_once __DIR__ . '/MakeResponse.php';
+require_once __DIR__ . '/MakeResult.php';
+require_once __DIR__ . '/MakePoint.php';
+require_once __DIR__ . '/MakeSpec.php';
+require_once __DIR__ . '/MakeUrl.php';
+require_once __DIR__ . '/Param.php';
+require_once __DIR__ . '/PrepareAuth.php';
+require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
+require_once __DIR__ . '/PrepareHeaders.php';
+require_once __DIR__ . '/PrepareMethod.php';
+require_once __DIR__ . '/PrepareParams.php';
+require_once __DIR__ . '/PreparePath.php';
+require_once __DIR__ . '/PrepareQuery.php';
+require_once __DIR__ . '/ResultBasic.php';
+require_once __DIR__ . '/ResultBody.php';
+require_once __DIR__ . '/ResultHeaders.php';
+require_once __DIR__ . '/TransformRequest.php';
+require_once __DIR__ . '/TransformResponse.php';
+
+BranchCustomExportsUtility::setRegistrar(function (BranchCustomExportsUtility $u): void {
+    $u->clean = [BranchCustomExportsClean::class, 'call'];
+    $u->done = [BranchCustomExportsDone::class, 'call'];
+    $u->make_error = [BranchCustomExportsMakeError::class, 'call'];
+    $u->feature_add = [BranchCustomExportsFeatureAdd::class, 'call'];
+    $u->feature_hook = [BranchCustomExportsFeatureHook::class, 'call'];
+    $u->feature_init = [BranchCustomExportsFeatureInit::class, 'call'];
+    $u->fetcher = [BranchCustomExportsFetcher::class, 'call'];
+    $u->make_fetch_def = [BranchCustomExportsMakeFetchDef::class, 'call'];
+    $u->make_context = [BranchCustomExportsMakeContext::class, 'call'];
+    $u->make_options = [BranchCustomExportsMakeOptions::class, 'call'];
+    $u->make_request = [BranchCustomExportsMakeRequest::class, 'call'];
+    $u->make_response = [BranchCustomExportsMakeResponse::class, 'call'];
+    $u->make_result = [BranchCustomExportsMakeResult::class, 'call'];
+    $u->make_point = [BranchCustomExportsMakePoint::class, 'call'];
+    $u->make_spec = [BranchCustomExportsMakeSpec::class, 'call'];
+    $u->make_url = [BranchCustomExportsMakeUrl::class, 'call'];
+    $u->param = [BranchCustomExportsParam::class, 'call'];
+    $u->prepare_auth = [BranchCustomExportsPrepareAuth::class, 'call'];
+    $u->prepare_body = [BranchCustomExportsPrepareBody::class, 'call'];
+    $u->prepare_headers = [BranchCustomExportsPrepareHeaders::class, 'call'];
+    $u->prepare_method = [BranchCustomExportsPrepareMethod::class, 'call'];
+    $u->prepare_params = [BranchCustomExportsPrepareParams::class, 'call'];
+    $u->prepare_path = [BranchCustomExportsPreparePath::class, 'call'];
+    $u->prepare_query = [BranchCustomExportsPrepareQuery::class, 'call'];
+    $u->graphql_body = [BranchCustomExportsGraphql::class, 'body'];
+    $u->graphql_errors = [BranchCustomExportsGraphql::class, 'errors'];
+    $u->result_basic = [BranchCustomExportsResultBasic::class, 'call'];
+    $u->result_body = [BranchCustomExportsResultBody::class, 'call'];
+    $u->result_headers = [BranchCustomExportsResultHeaders::class, 'call'];
+    $u->transform_request = [BranchCustomExportsTransformRequest::class, 'call'];
+    $u->transform_response = [BranchCustomExportsTransformResponse::class, 'call'];
+});

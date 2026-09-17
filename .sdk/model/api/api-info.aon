@@ -1,0 +1,33 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      contact: {
+        email: "support@branch.io"
+        name: "Branch Support"
+        url: "https://help.branch.io/using-branch/page/submit-a-ticket"
+      }
+      description: "Export log-level and aggregate-level data for measuring campaign performance."
+      security: {
+        in: "query"
+        name: "app_id"
+        prefix: ""
+        scheme: "appId"
+        type: "apiKey"
+      }
+      servers: [
+        {
+          url: "https://api2.branch.io/v2"
+        }
+      ]
+      summary: "Export log-level and aggregate-level data for measuring campaign performance."
+      termsOfService: "https://branch.io/policies/"
+      title: "Custom Exports API"
+      version: "1.0.1"
+      website: "https://api2.branch.io"
+    }
+  }
+}
+

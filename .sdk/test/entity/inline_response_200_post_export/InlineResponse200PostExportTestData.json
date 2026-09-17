@@ -1,0 +1,15 @@
+{
+  "existing": {
+    "inline_response_200_post_export": {
+      "INLINE_RESPONSE_200_POST_EXPORT00": {},
+      "INLINE_RESPONSE_200_POST_EXPORT01": {},
+      "INLINE_RESPONSE_200_POST_EXPORT02": {}
+    }
+  },
+  "new": {
+    "inline_response_200_post_export": {
+      "inline_response_200_post_export_ref01": {}
+    }
+  },
+  "requests": {}
+}
