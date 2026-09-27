@@ -377,24 +377,6 @@ class BranchCustomExportsSDK
     }
 
 
-    private $_inline_response_200_post_export = null;
-
-    // Canonical facade: $client->InlineResponse200PostExport()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->inline_response_200_post_export()
-    // resolves here too.
-    public function InlineResponse200PostExport($data = null)
-    {
-        require_once __DIR__ . '/entity/inline_response_200_post_export_entity.php';
-        if ($data === null) {
-            if ($this->_inline_response_200_post_export === null) {
-                $this->_inline_response_200_post_export = new InlineResponse200PostExportEntity($this, null);
-            }
-            return $this->_inline_response_200_post_export;
-        }
-        return new InlineResponse200PostExportEntity($this, $data);
-    }
-
-
 
     public static function test(?array $testopts = null, ?array $sdkopts = null): self
     {

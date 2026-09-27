@@ -37,7 +37,7 @@ const SDK_NAME = 'BranchCustomExportsSDK'
 
 // A fixture for every entity, so list()/load() resolve offline with no
 // network. Snippet client construction is rewritten to seed this.
-const TEST_SEED = {"entity":{"inline_response_200_get_export":{"test01":{"id":"test01"}},"inline_response_200_post_data_readiness":{"test01":{"id":"test01"}},"inline_response_200_post_export":{"test01":{"id":"test01"}}}}
+const TEST_SEED = {"entity":{"inline_response_200_get_export":{"test01":{"id":"test01"}},"inline_response_200_post_data_readiness":{"test01":{"id":"test01"}}}}
 const SEED_ARG = JSON.stringify(TEST_SEED)
 const SEEDED_CTOR = SDK_NAME + '.test(' + SEED_ARG + ')'
 

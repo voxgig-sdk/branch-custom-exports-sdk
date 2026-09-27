@@ -24,5 +24,3 @@ var NewInlineResponse200GetExportEntityFunc func(client *BranchCustomExportsSDK,
 
 var NewInlineResponse200PostDataReadinessEntityFunc func(client *BranchCustomExportsSDK, entopts map[string]any) BranchCustomExportsEntity
 
-var NewInlineResponse200PostExportEntityFunc func(client *BranchCustomExportsSDK, entopts map[string]any) BranchCustomExportsEntity
-

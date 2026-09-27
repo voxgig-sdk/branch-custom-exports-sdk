@@ -1,6 +1,5 @@
 import { InlineResponse200GetExportEntity } from './entity/InlineResponse200GetExportEntity';
 import { InlineResponse200PostDataReadinessEntity } from './entity/InlineResponse200PostDataReadinessEntity';
-import { InlineResponse200PostExportEntity } from './entity/InlineResponse200PostExportEntity';
 export type * from './BranchCustomExportsTypes';
 import { inspect } from 'node:util';
 import type { Context, Feature } from './types';
@@ -48,7 +47,6 @@ declare class BranchCustomExportsSDK {
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     InlineResponse200GetExport(entopts?: Record<string, any>): InlineResponse200GetExportEntity;
     InlineResponse200PostDataReadiness(entopts?: Record<string, any>): InlineResponse200PostDataReadinessEntity;
-    InlineResponse200PostExport(entopts?: Record<string, any>): InlineResponse200PostExportEntity;
     static test(testoptsarg?: any, sdkoptsarg?: any): BranchCustomExportsSDK;
     tester(testopts?: any, sdkopts?: any): BranchCustomExportsSDK;
     toJSON(): {

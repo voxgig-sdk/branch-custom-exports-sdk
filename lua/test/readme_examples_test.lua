@@ -20,7 +20,7 @@ local SDK_MODULE = "branch-custom-exports_sdk"
 -- A test-mode client seeded with a fixture for every entity. The constructor
 -- of each runnable snippet is rewritten to this form so the offline mock has
 -- data to return.
-local TEST_SEED = '{ entity = { ["inline_response_200_get_export"] = { ["test01"] = { id = "test01" } }, ["inline_response_200_post_data_readiness"] = { ["test01"] = { id = "test01" } }, ["inline_response_200_post_export"] = { ["test01"] = { id = "test01" } } } }'
+local TEST_SEED = '{ entity = { ["inline_response_200_get_export"] = { ["test01"] = { id = "test01" } }, ["inline_response_200_post_data_readiness"] = { ["test01"] = { id = "test01" } } } }'
 local TEST_CTOR = "sdk.test(" .. TEST_SEED .. ")"
 
 local function script_dir()

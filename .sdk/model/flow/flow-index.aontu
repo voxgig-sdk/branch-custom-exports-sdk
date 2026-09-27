@@ -1,0 +1,4 @@
+# Flows
+
+@"./BasicInlineResponse200GetExportFlow.aontu"
+@"./BasicInlineResponse200PostDataReadinessFlow.aontu"

@@ -9,18 +9,6 @@ import (
 	sdk "github.com/voxgig-sdk/branch-custom-exports-sdk/go"
 )
 
-// registerSDKWords installs three native boru words bound to the SDK:
-// list / load / update. Each is declared with two overloads matching
-// the signature  [query?:(Node or Scalar) entity:atom]:
-//
-//   [entity:Atom]            — no query (e.g. `list book`)
-//   [query:Any entity:Atom]  — query is any Node or Scalar (e.g.
-//                              `load {id:1} book`, `load 1 book`)
-//
-// The entity slot is /q-quoted so a bareword `book` parses as the
-// Atom "book" rather than dispatching as an undefined word. Both
-// overloads are all-forward (BarrierAllForward), so args are collected
-// from the tokens following the word.
 func registerSDKWords(r *eng.Registry, client *sdk.BranchCustomExportsSDK) {
 	for _, op := range []string{"list", "load", "update"} {
 		op := op
@@ -93,8 +81,6 @@ func entityFor(client *sdk.BranchCustomExportsSDK, name string) (sdk.BranchCusto
 		return client.InlineResponse200GetExport(nil), nil
 	case "inline_response_200_post_data_readiness":
 		return client.InlineResponse200PostDataReadiness(nil), nil
-	case "inline_response_200_post_export":
-		return client.InlineResponse200PostExport(nil), nil
 
 	}
 	return nil, fmt.Errorf("unknown entity %q", name)

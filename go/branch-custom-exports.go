@@ -59,9 +59,6 @@ func init() {
 	core.NewInlineResponse200PostDataReadinessEntityFunc = func(client *core.BranchCustomExportsSDK, entopts map[string]any) core.BranchCustomExportsEntity {
 		return entity.NewInlineResponse200PostDataReadinessEntity(client, entopts)
 	}
-	core.NewInlineResponse200PostExportEntityFunc = func(client *core.BranchCustomExportsSDK, entopts map[string]any) core.BranchCustomExportsEntity {
-		return entity.NewInlineResponse200PostExportEntity(client, entopts)
-	}
 }
 
 // Constructor re-exports.

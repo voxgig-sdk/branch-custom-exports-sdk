@@ -20,7 +20,7 @@ import (
 const prompt = "branch-custom-exports"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "inline_response_200_get_export inline_response_200_post_data_readiness inline_response_200_post_export"
+const entitiesHelp = "inline_response_200_get_export inline_response_200_post_data_readiness"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

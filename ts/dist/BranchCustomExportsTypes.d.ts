@@ -53,5 +53,3 @@ export interface InlineResponse200PostDataReadinessCreateData {
     topic: string;
     warehouse_meta_type: string;
 }
-export interface InlineResponse200PostExport {
-}

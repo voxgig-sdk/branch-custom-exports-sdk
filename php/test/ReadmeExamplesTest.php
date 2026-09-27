@@ -42,7 +42,6 @@ class ReadmeExamplesTest extends TestCase
     private const ENTITIES = [
         "InlineResponse200GetExport" => "inline_response_200_get_export",
         "InlineResponse200PostDataReadiness" => "inline_response_200_post_data_readiness",
-        "InlineResponse200PostExport" => "inline_response_200_post_export",
     ];
 
     // Documented SDK method names — used only to recognise the NARROW

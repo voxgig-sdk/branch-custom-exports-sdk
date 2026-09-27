@@ -101,7 +101,7 @@ func inline_response_200_get_exportBasicSetup(extra map[string]any) *entityTestS
 
 	// Generate idmap via transform, matching TS pattern.
 	idmap, _ := vs.Transform(
-		[]any{"inline_response_200_get_export01", "inline_response_200_get_export02", "inline_response_200_get_export03", "log01", "log02", "log03"},
+		[]any{"inline_response_200_get_export01", "inline_response_200_get_export02", "inline_response_200_get_export03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
 				"`$KEY`": "`$COPY`",

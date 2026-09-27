@@ -319,12 +319,6 @@ class BranchCustomExportsSDK:
         return InlineResponse200PostDataReadinessEntity(self, data)
 
 
-    def InlineResponse200PostExport(self, data=None) -> "InlineResponse200PostExportEntity":
-        """Entity factory: client.InlineResponse200PostExport().list() / client.InlineResponse200PostExport().load({"id": ...})."""
-        from branchcustomexports_sdk.entity.inline_response_200_post_export_entity import InlineResponse200PostExportEntity
-        return InlineResponse200PostExportEntity(self, data)
-
-
 
     @classmethod
     def test(cls, testopts=None, sdkopts=None) -> "BranchCustomExportsSDK":
@@ -354,4 +348,3 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from branchcustomexports_sdk.entity.inline_response_200_get_export_entity import InlineResponse200GetExportEntity
     from branchcustomexports_sdk.entity.inline_response_200_post_data_readiness_entity import InlineResponse200PostDataReadinessEntity
-    from branchcustomexports_sdk.entity.inline_response_200_post_export_entity import InlineResponse200PostExportEntity

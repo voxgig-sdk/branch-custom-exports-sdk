@@ -1,0 +1,83 @@
+# Entity: inline_response_200_post_data_readiness
+
+main: kit: entity: inline_response_200_post_data_readiness: {
+
+  alias: field: {}
+
+  fields: {
+    app_id: {
+      h: "App Id"
+      n: "app_id"
+      r: true
+      sh: "Your Branch App ID, found under Account Settings in your Branch Dashboard."
+      t: "`$INTEGER`"
+    }
+    data_ready: {
+      h: "Data Ready"
+      n: "data_ready"
+      r: false
+      sh: "Whether the data is currently available."
+      t: "`$BOOLEAN`"
+    }
+    date: {
+      h: "Date"
+      n: "date"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      r: false
+      sh: "The date associated with the data."
+      t: "`$STRING`"
+    }
+    topic: {
+      h: "Topic"
+      n: "topic"
+      r: true
+      sh: "The topic associated with the data."
+      t: "`$STRING`"
+    }
+    warehouse_meta_type: {
+      h: "Warehouse Meta Type"
+      n: "warehouse_meta_type"
+      r: true
+      sh: "The type of data to check for."
+      t: "`$STRING`"
+    }
+  }
+
+  name: "inline_response_200_post_data_readiness"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /data/ready"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/data/ready"
+          s: [
+            {
+              lit: "data"
+            }
+            {
+              lit: "ready"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

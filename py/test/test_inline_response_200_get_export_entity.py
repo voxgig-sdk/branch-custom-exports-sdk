@@ -70,7 +70,7 @@ def _inline_response_200_get_export_basic_setup(extra):
 
     # Generate idmap via transform.
     idmap = vs.transform(
-        ["inline_response_200_get_export01", "inline_response_200_get_export02", "inline_response_200_get_export03", "log01", "log02", "log03"],
+        ["inline_response_200_get_export01", "inline_response_200_get_export02", "inline_response_200_get_export03"],
         {
             "`$PACK`": ["", {
                 "`$KEY`": "`$COPY`",

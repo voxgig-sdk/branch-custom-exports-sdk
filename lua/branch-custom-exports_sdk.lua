@@ -381,20 +381,6 @@ function BranchCustomExportsSDK:InlineResponse200PostDataReadiness(data)
 end
 
 
--- Idiomatic facade: client:InlineResponse200PostExport():list() / client:InlineResponse200PostExport():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function BranchCustomExportsSDK:InlineResponse200PostExport(data)
-  local EntityMod = require("entity.inline_response_200_post_export_entity")
-  if data == nil then
-    if self._inline_response_200_post_export == nil then
-      self._inline_response_200_post_export = EntityMod.new(self, nil)
-    end
-    return self._inline_response_200_post_export
-  end
-  return EntityMod.new(self, data)
-end
-
-
 
 
 function BranchCustomExportsSDK.test(testopts, sdkopts)

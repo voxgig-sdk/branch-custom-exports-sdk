@@ -78,7 +78,6 @@ _CLIENT_VARS = ("client", "sdk")
 _ENTITIES = {
     "InlineResponse200GetExport": "inline_response_200_get_export",
     "InlineResponse200PostDataReadiness": "inline_response_200_post_data_readiness",
-    "InlineResponse200PostExport": "inline_response_200_post_export",
 }
 
 # The three documents held to the gate, tagged by human label.

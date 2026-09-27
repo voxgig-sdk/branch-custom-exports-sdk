@@ -19,19 +19,12 @@ const FEATURE_CLASS = {
     test: TestFeature_1.TestFeature,
     timeout: TimeoutFeature_1.TimeoutFeature,
 };
-// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
-// the model's active plugin groups. A feature that takes a `plugins` option
-// (secrets over sekreto) reads its own entry; a feature with no plugins has
-// none. Named imports above make each definition statically reachable, so
-// an SDK carries exactly the plugin modules its model selects — the same
-// leanness the old side-effect registry imports bought, without a registry.
 const FEATURE_PLUGINS = {};
 exports.FEATURE_PLUGINS = FEATURE_PLUGINS;
 class Config {
     makeFeature(fn) {
         const fc = FEATURE_CLASS[fn];
         const fi = new fc();
-        // TODO: errors etc
         return fi;
     }
     // False for a feature added at runtime via options.extend (station's
@@ -191,7 +184,6 @@ class Config {
         entity: {
             inline_response_200_get_export: {},
             inline_response_200_post_data_readiness: {},
-            inline_response_200_post_export: {},
         }
     };
     entity = {
@@ -199,91 +191,107 @@ class Config {
             "fields": [
                 {
                     "name": "allow_multiple_files",
-                    "short": "Set this parameter to `true` if you want more than 15 million records returned.",
-                    "type": "`$BOOLEAN`"
+                    "title": "Allow Multiple Files",
+                    "type": "`$BOOLEAN`",
+                    "short": "Set this parameter to `true` if you want more than 15 million records returned."
                 },
                 {
                     "name": "code",
-                    "short": "Response code",
-                    "type": "`$INTEGER`"
+                    "title": "Code",
+                    "type": "`$INTEGER`",
+                    "short": "Response code"
                 },
                 {
-                    "format": "date-time",
                     "name": "end_date",
+                    "title": "End Date",
+                    "type": "`$STRING`",
                     "req": true,
                     "short": "The end of the interval time range represented as an ISO-8601 complete datetime including Hours, Minutes, Seconds, and Milliseconds.",
-                    "type": "`$STRING`"
+                    "format": "date-time"
                 },
                 {
                     "name": "export_job_status_url",
-                    "short": "The URL of the export request.",
-                    "type": "`$STRING`"
+                    "title": "Export Job Status Url",
+                    "type": "`$STRING`",
+                    "short": "The URL of the export request."
                 },
                 {
                     "name": "fields",
+                    "title": "Fields",
+                    "type": "`$ARRAY`",
                     "req": true,
-                    "short": "An array representing fields/columns available in your report.",
-                    "type": "`$ARRAY`"
+                    "short": "An array representing fields/columns available in your report."
                 },
                 {
                     "name": "filter",
-                    "short": "A filter requires an array with 3 specific string values: [\"[Cthulu Prefix](https://help.branch.io/developers-hub/docs/custom-exports#cthulhu-filter-specification)\", \"[EO Field Key](https://help.branch.io/developers-hub/reference/custom-ex…",
-                    "type": "`$ARRAY`"
+                    "title": "Filter",
+                    "type": "`$ARRAY`",
+                    "short": "A filter requires an array with 3 specific string values: [\"[Cthulu Prefix](https://help.branch.io/developers-hub/docs/custom-exports#cthulhu-filter-specification)\", \"[EO Field Key](https://help.branch.io/developers-hub/reference/custom-ex…"
                 },
                 {
                     "name": "handle",
-                    "short": "Unique request handle generated against the endpoint call.",
-                    "type": "`$STRING`"
+                    "title": "Handle",
+                    "type": "`$STRING`",
+                    "short": "Unique request handle generated against the endpoint call."
                 },
                 {
-                    "format": "int32",
                     "name": "limit",
+                    "title": "Limit",
+                    "type": "`$INTEGER`",
                     "req": true,
                     "short": "The maximum number of results to return.",
-                    "type": "`$INTEGER`"
+                    "format": "int32"
                 },
                 {
                     "name": "lines_exported",
-                    "short": "Number of lines exported against the originated request.",
-                    "type": "`$INTEGER`"
+                    "title": "Lines Exported",
+                    "type": "`$INTEGER`",
+                    "short": "Number of lines exported against the originated request."
                 },
                 {
                     "name": "report_type",
+                    "title": "Report Type",
+                    "type": "`$STRING`",
                     "req": true,
-                    "short": "An array representing event type of your report.",
-                    "type": "`$STRING`"
+                    "short": "An array representing event type of your report."
                 },
                 {
                     "name": "response_format",
-                    "short": "Format of returned data.",
-                    "type": "`$STRING`"
+                    "title": "Response Format",
+                    "type": "`$STRING`",
+                    "short": "Format of returned data."
                 },
                 {
                     "name": "response_format_compression",
-                    "short": "The file compression method to use for the data.",
-                    "type": "`$ANY`"
+                    "title": "Response Format Compression",
+                    "type": "`$ANY`",
+                    "short": "The file compression method to use for the data."
                 },
                 {
-                    "format": "date-time",
                     "name": "start_date",
+                    "title": "Start Date",
+                    "type": "`$STRING`",
                     "req": true,
                     "short": "The start of the interval time range represented as an ISO-8601 complete datetime including Hours, Minutes, Seconds, and Milliseconds.",
-                    "type": "`$STRING`"
+                    "format": "date-time"
                 },
                 {
                     "name": "status",
-                    "short": "Request status over the current execution time",
-                    "type": "`$STRING`"
+                    "title": "Status",
+                    "type": "`$STRING`",
+                    "short": "Request status over the current execution time"
                 },
                 {
                     "name": "status_url",
-                    "short": "The URL of the export request.",
-                    "type": "`$STRING`"
+                    "title": "Status Url",
+                    "type": "`$STRING`",
+                    "short": "The URL of the export request."
                 },
                 {
                     "name": "timezone",
-                    "short": "Timezone for results.",
-                    "type": "`$STRING`"
+                    "title": "Timezone",
+                    "type": "`$STRING`",
+                    "short": "Timezone for results."
                 }
             ],
             "name": "inline_response_200_get_export",
@@ -293,7 +301,6 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/logs",
@@ -302,14 +309,16 @@ class Config {
                                     "lit": "logs"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "logs"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "logs"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 },
@@ -318,34 +327,6 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "kind": "param",
-                                        "name": "request_handle",
-                                        "orig": "request_handle",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ],
-                                "query": [
-                                    {
-                                        "example": "csv",
-                                        "kind": "query",
-                                        "name": "format",
-                                        "orig": "format",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "limit",
-                                        "orig": "limit",
-                                        "reqd": true,
-                                        "type": "`$INTEGER`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/logs/{request_handle}",
@@ -357,68 +338,98 @@ class Config {
                                     "var": "request_handle"
                                 }
                             ],
+                            "parts": [
+                                "logs",
+                                "{request_handle}"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "request_handle",
+                                        "orig": "request_handle",
+                                        "type": "`$STRING`",
+                                        "kind": "param",
+                                        "reqd": true
+                                    }
+                                ],
+                                "query": [
+                                    {
+                                        "name": "format",
+                                        "orig": "format",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true,
+                                        "example": "csv"
+                                    },
+                                    {
+                                        "name": "limit",
+                                        "orig": "limit",
+                                        "type": "`$INTEGER`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "format",
                                     "limit",
                                     "request_handle"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "logs",
-                                "{request_handle}"
-                            ]
+                            }
                         }
                     ]
                 }
             },
             "relations": {
-                "ancestors": [
-                    [
-                        "log"
-                    ]
-                ]
+                "ancestors": []
             }
         },
         "inline_response_200_post_data_readiness": {
             "fields": [
                 {
                     "name": "app_id",
+                    "title": "App Id",
+                    "type": "`$INTEGER`",
                     "req": true,
-                    "short": "Your Branch App ID, found under Account Settings in your Branch Dashboard.",
-                    "type": "`$INTEGER`"
+                    "short": "Your Branch App ID, found under Account Settings in your Branch Dashboard."
                 },
                 {
                     "name": "data_ready",
-                    "short": "Whether the data is currently available.",
-                    "type": "`$BOOLEAN`"
+                    "title": "Data Ready",
+                    "type": "`$BOOLEAN`",
+                    "short": "Whether the data is currently available."
                 },
                 {
                     "name": "date",
+                    "title": "Date",
+                    "type": "`$STRING`",
                     "op": {
                         "create": {
                             "req": true,
                             "type": "`$STRING`"
                         }
                     },
-                    "short": "The date associated with the data.",
-                    "type": "`$STRING`"
+                    "short": "The date associated with the data."
                 },
                 {
                     "name": "topic",
+                    "title": "Topic",
+                    "type": "`$STRING`",
                     "req": true,
-                    "short": "The topic associated with the data.",
-                    "type": "`$STRING`"
+                    "short": "The topic associated with the data."
                 },
                 {
                     "name": "warehouse_meta_type",
+                    "title": "Warehouse Meta Type",
+                    "type": "`$STRING`",
                     "req": true,
-                    "short": "The type of data to check for.",
-                    "type": "`$STRING`"
+                    "short": "The type of data to check for."
                 }
             ],
             "name": "inline_response_200_post_data_readiness",
@@ -428,7 +439,6 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/data/ready",
@@ -440,27 +450,21 @@ class Config {
                                     "lit": "ready"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "data",
+                                "ready"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "data",
-                                "ready"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 }
             },
-            "relations": {
-                "ancestors": []
-            }
-        },
-        "inline_response_200_post_export": {
-            "fields": [],
-            "name": "inline_response_200_post_export",
-            "op": {},
             "relations": {
                 "ancestors": []
             }

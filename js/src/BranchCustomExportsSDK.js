@@ -2,7 +2,6 @@
 
 const { InlineResponse200GetExportEntity } = require('./entity/InlineResponse200GetExportEntity')
 const { InlineResponse200PostDataReadinessEntity } = require('./entity/InlineResponse200PostDataReadinessEntity')
-const { InlineResponse200PostExportEntity } = require('./entity/InlineResponse200PostExportEntity')
 
 
 const { inspect } = require('node:util')
@@ -310,15 +309,6 @@ class BranchCustomExportsSDK {
   InlineResponse200PostDataReadiness(entopts) {
     const self = this
     return new InlineResponse200PostDataReadinessEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.InlineResponse200PostExport().list()` / `client.InlineResponse200PostExport().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  InlineResponse200PostExport(entopts) {
-    const self = this
-    return new InlineResponse200PostExportEntity(self, entopts)
   }
 
 

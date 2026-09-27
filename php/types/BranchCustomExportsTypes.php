@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 // Typed models for the BranchCustomExports SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 //
@@ -80,10 +80,5 @@ class InlineResponse200PostDataReadinessCreateData
     public ?string $date = null;
     public string $topic;
     public string $warehouse_meta_type;
-}
-
-/** InlineResponse200PostExport entity data model. */
-class InlineResponse200PostExport
-{
 }
 
